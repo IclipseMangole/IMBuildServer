@@ -1,0 +1,7 @@
+name: IMBuildServer
+main: de.Iclipse.BuildServer.Main
+version: Alpha
+author: Iclipse
+api-version: 1.15
+depend: [IMAPI]
+load: POSTWORLD
