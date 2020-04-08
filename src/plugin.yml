@@ -4,4 +4,3 @@ version: Alpha
 author: Iclipse
 api-version: 1.15
 depend: [IMAPI]
-load: POSTWORLD

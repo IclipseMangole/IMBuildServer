@@ -1,4 +1,4 @@
-package de.Iclipse.BuildServer.Fucntions;
+package de.Iclipse.BuildServer.Functions;
 
 import de.Iclipse.BuildServer.Data;
 import org.bukkit.Bukkit;
@@ -25,7 +25,7 @@ public class Tablist {
 
 
     public Tablist() {
-        header = "§8«§5§lIM§r§fBARO§r§8 »";
+        header = "§8«§5§lIM§r§fBuildServer§r§8 »";
         footer = "§7Server: §e" + Data.instance.getDataFolder().getAbsoluteFile().getParentFile().getParentFile().getName();
         ranks = "§4Admin §cMod \n §3User";
 
@@ -37,6 +37,9 @@ public class Tablist {
         this.a.setPrefix("§7[§4Admin§7]§4 ");
         this.b.setPrefix("§7[§cMod§7]§c ");
         this.c.setPrefix("§3 ");
+        this.a.setColor(ChatColor.getByChar('4'));
+        this.b.setColor(ChatColor.getByChar('c'));
+        this.c.setColor(ChatColor.getByChar('3'));
     }
 
 
