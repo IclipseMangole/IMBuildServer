@@ -19,7 +19,7 @@ public class BuildListener implements Listener {
         tablist.setPlayer(e.getPlayer());
 
         tablist.setTablist(p);
-        p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+        p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 
         e.setJoinMessage(null);
 
