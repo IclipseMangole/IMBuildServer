@@ -1,6 +1,7 @@
 package de.Iclipse.BuildServer;
 
 import de.Iclipse.BuildServer.Functions.Commands.cmd_clear;
+import de.Iclipse.BuildServer.Functions.Commands.cmd_field;
 import de.Iclipse.BuildServer.Functions.Commands.cmd_map;
 import de.Iclipse.BuildServer.Functions.Commands.cmd_world;
 import de.Iclipse.BuildServer.Functions.Listener.BuildListener;
@@ -38,13 +39,14 @@ public class Main extends JavaPlugin {
 
     public void registerListener() {
         Bukkit.getPluginManager().registerEvents(new BuildListener(), this);
-        Bukkit.getPluginManager().registerEvents(new cmd_map(), this);
+        //Bukkit.getPluginManager().registerEvents(new cmd_map(), this);
     }
 
     public void registerCommands() {
         register(new cmd_world(), this);
         register(new cmd_clear(), this);
         register(new cmd_map(), this);
+        register(new cmd_field(), this);
     }
 
     public void loadWorlds() {
