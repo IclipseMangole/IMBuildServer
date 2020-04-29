@@ -5,6 +5,7 @@ import de.Iclipse.BuildServer.Functions.Commands.cmd_field;
 import de.Iclipse.BuildServer.Functions.Commands.cmd_map;
 import de.Iclipse.BuildServer.Functions.Commands.cmd_world;
 import de.Iclipse.BuildServer.Functions.Listener.BuildListener;
+import de.Iclipse.BuildServer.Functions.Listener.TestListener;
 import de.Iclipse.BuildServer.Functions.Tablist;
 import de.Iclipse.IMAPI.Util.Dispatching.Dispatcher;
 import org.bukkit.Bukkit;
@@ -39,6 +40,7 @@ public class Main extends JavaPlugin {
 
     public void registerListener() {
         Bukkit.getPluginManager().registerEvents(new BuildListener(), this);
+        Bukkit.getPluginManager().registerEvents(new TestListener(), this);
         //Bukkit.getPluginManager().registerEvents(new cmd_map(), this);
     }
 

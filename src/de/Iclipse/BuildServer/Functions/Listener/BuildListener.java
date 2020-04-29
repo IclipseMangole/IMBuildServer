@@ -8,6 +8,7 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 
 import static de.Iclipse.BuildServer.Data.dsp;
 import static de.Iclipse.BuildServer.Data.tablist;
@@ -50,6 +51,14 @@ public class BuildListener implements Listener {
         if (e.getBlock().getType().toString().contains("LEAVES")) {
             e.setCancelled(true);
             //System.out.println(e.getEventName());
+        }
+    }
+
+    @EventHandler
+    public void onWeatherChange(WeatherChangeEvent e) {
+        //Rain
+        if (e.toWeatherState()) {
+            e.setCancelled(true);
         }
     }
 }
