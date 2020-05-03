@@ -1,11 +1,16 @@
 package de.Iclipse.BuildServer;
 
+import de.Iclipse.BuildServer.Functions.Animations.Flag;
+import de.Iclipse.BuildServer.Functions.Animations.Grave;
+import de.Iclipse.BuildServer.Functions.Animations.Vent;
+import de.Iclipse.BuildServer.Functions.Animations.Windmill;
 import de.Iclipse.BuildServer.Functions.Commands.cmd_clear;
 import de.Iclipse.BuildServer.Functions.Commands.cmd_field;
 import de.Iclipse.BuildServer.Functions.Commands.cmd_map;
 import de.Iclipse.BuildServer.Functions.Commands.cmd_world;
 import de.Iclipse.BuildServer.Functions.Listener.BuildListener;
 import de.Iclipse.BuildServer.Functions.Listener.TestListener;
+import de.Iclipse.BuildServer.Functions.Scheduler.Scheduler;
 import de.Iclipse.BuildServer.Functions.Tablist;
 import de.Iclipse.IMAPI.Util.Dispatching.Dispatcher;
 import org.bukkit.Bukkit;
@@ -31,11 +36,13 @@ public class Main extends JavaPlugin {
         Bukkit.getWorlds().forEach(entry -> {
             entry.setAutoSave(true);
         });
+        createAnimations();
+        Scheduler.startScheduler();
     }
 
     @Override
     public void onDisable() {
-        super.onDisable();
+        Scheduler.stopScheduler();
     }
 
     public void registerListener() {
@@ -76,6 +83,13 @@ public class Main extends JavaPlugin {
             System.out.println("Reload oder Bundle not found!");
             de.Iclipse.IMAPI.Data.dispatching = false;
         }
+    }
+
+    public void createAnimations() {
+        Flag.createFlags();
+        Grave.createGraves();
+        Vent.createVents();
+        Windmill.createWindmills();
     }
 
 }
