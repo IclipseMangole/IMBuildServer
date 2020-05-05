@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Flag {
-    public static Location animation0 = new Location(Bukkit.getWorld("world"), -34, 2, -17);
-    public static Location animation1 = new Location(Bukkit.getWorld("world"), -29, 2, -17);
-    public static Location animation2 = new Location(Bukkit.getWorld("world"), -24, 2, -17);
+    public static Location animation0 = new Location(Bukkit.getWorld("IMLobby_world"), -34, 2, -17);
+    public static Location animation1 = new Location(Bukkit.getWorld("IMLobby_world"), -29, 2, -17);
+    public static Location animation2 = new Location(Bukkit.getWorld("IMLobby_world"), -24, 2, -17);
     public static int height = 3;
     public static int width = 11;
     public static int length = 5;
@@ -48,7 +48,7 @@ public class Flag {
     public static void createFlags() {
         Random random = new Random();
         flags = new HashMap<>();
-        flags.put(new Location(Bukkit.getWorld("world"), 9, 74, -125), random.nextInt(3));
-        flags.put(new Location(Bukkit.getWorld("world"), 9, 74, -108), random.nextInt(3));
+        flags.put(new Location(Bukkit.getWorld("IMLobby_world"), 9, 74, -125), random.nextInt(3));
+        flags.put(new Location(Bukkit.getWorld("IMLobby_world"), 9, 74, -108), random.nextInt(3));
     }
 }

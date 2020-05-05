@@ -8,18 +8,18 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Vent {
-    public static Location animation0 = new Location(Bukkit.getWorld("world"), -5, 2, 14);
-    public static Location animation1 = new Location(Bukkit.getWorld("world"), 4, 2, 14);
-    public static Location animation2 = new Location(Bukkit.getWorld("world"), 11, 2, 14);
+    public static Location animation0 = new Location(Bukkit.getWorld("IMLobby_world"), -5, 2, 14);
+    public static Location animation1 = new Location(Bukkit.getWorld("IMLobby_world"), 4, 2, 14);
+    public static Location animation2 = new Location(Bukkit.getWorld("IMLobby_world"), 11, 2, 14);
     public static int height = 6;
     public static int width = 8;
     public static int length = 6;
     public static HashMap<Location, Integer> vents;
 
     /*
-    public static Location animation0 = new Location(Bukkit.getWorld("world"), -34, 2, 14);
-    public static Location animation1 = new Location(Bukkit.getWorld("world"), -29, 2, 14);
-    public static Location animation2 = new Location(Bukkit.getWorld("world"), -24, 2, 14);
+    public static Location animation0 = new Location(Bukkit.getWorld("IMLobby_world"), -34, 2, 14);
+    public static Location animation1 = new Location(Bukkit.getWorld("IMLobby_world"), -29, 2, 14);
+    public static Location animation2 = new Location(Bukkit.getWorld("IMLobby_world"), -24, 2, 14);
     public static int height = 3;
     public static int width = 5;
     public static int length = 4;
@@ -58,10 +58,10 @@ public class Vent {
     public static void createVents() {
         Random random = new Random();
         vents = new HashMap<>();
-        vents.put(new Location(Bukkit.getWorld("world"), 21, 61, -74), random.nextInt(3));
-        vents.put(new Location(Bukkit.getWorld("world"), 9, 66, -86), random.nextInt(3));
-        vents.put(new Location(Bukkit.getWorld("world"), 8, 61, -65), random.nextInt(3));
-        vents.put(new Location(Bukkit.getWorld("world"), -40, 62, -153), random.nextInt(3));
+        vents.put(new Location(Bukkit.getWorld("IMLobby_world"), 21, 61, -74), random.nextInt(3));
+        vents.put(new Location(Bukkit.getWorld("IMLobby_world"), 9, 66, -86), random.nextInt(3));
+        vents.put(new Location(Bukkit.getWorld("IMLobby_world"), 8, 61, -65), random.nextInt(3));
+        vents.put(new Location(Bukkit.getWorld("IMLobby_world"), -40, 62, -153), random.nextInt(3));
     }
 
 

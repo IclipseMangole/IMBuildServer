@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Windmill {
-    public static Location animation0 = new Location(Bukkit.getWorld("world"), -34, 2, -3);
-    public static Location animation1 = new Location(Bukkit.getWorld("world"), -29, 2, -3);
-    public static Location animation2 = new Location(Bukkit.getWorld("world"), -24, 2, -3);
-    public static Location animation3 = new Location(Bukkit.getWorld("world"), -19, 2, -3);
+    public static Location animation0 = new Location(Bukkit.getWorld("IMLobby_world"), -34, 2, -3);
+    public static Location animation1 = new Location(Bukkit.getWorld("IMLobby_world"), -29, 2, -3);
+    public static Location animation2 = new Location(Bukkit.getWorld("IMLobby_world"), -24, 2, -3);
+    public static Location animation3 = new Location(Bukkit.getWorld("IMLobby_world"), -19, 2, -3);
     public static int height = 15;
     public static int width = 15;
     public static int length = 2;
@@ -52,7 +52,7 @@ public class Windmill {
     public static void createWindmills() {
         Random random = new Random();
         windmills = new HashMap<>();
-        windmills.put(new Location(Bukkit.getWorld("world"), -7, 57, -71), random.nextInt(4));
+        windmills.put(new Location(Bukkit.getWorld("IMLobby_world"), -7, 57, -71), random.nextInt(4));
 
     }
 }

@@ -16,7 +16,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="spigot-1.15.2" level="project" />
     <orderEntry type="module" module-name="IMAPI" />
+    <orderEntry type="library" name="spigot-1.15.2" level="project" />
   </component>
 </module>

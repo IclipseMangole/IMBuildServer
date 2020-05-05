@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Grave {
-    public static Location animation0 = new Location(Bukkit.getWorld("world"), -34, 2, -22);
-    public static Location animation1 = new Location(Bukkit.getWorld("world"), -29, 2, -22);
-    public static Location animation2 = new Location(Bukkit.getWorld("world"), -24, 2, -22);
-    public static Location animation3 = new Location(Bukkit.getWorld("world"), -19, 2, -22);
-    public static Location animation4 = new Location(Bukkit.getWorld("world"), -14, 2, -22);
+    public static Location animation0 = new Location(Bukkit.getWorld("IMLobby_world"), -34, 2, -22);
+    public static Location animation1 = new Location(Bukkit.getWorld("IMLobby_world"), -29, 2, -22);
+    public static Location animation2 = new Location(Bukkit.getWorld("IMLobby_world"), -24, 2, -22);
+    public static Location animation3 = new Location(Bukkit.getWorld("IMLobby_world"), -19, 2, -22);
+    public static Location animation4 = new Location(Bukkit.getWorld("IMLobby_world"), -14, 2, -22);
     public static int height = 6;
     public static int width = 3;
     public static int length = 5;
@@ -69,7 +69,7 @@ public class Grave {
     public static void createGraves() {
         Random random = new Random();
         graves = new HashMap<>();
-        graves.put(new Location(Bukkit.getWorld("world"), -36, 52, -138), random.nextInt(5));
+        graves.put(new Location(Bukkit.getWorld("IMLobby_world"), -36, 52, -138), random.nextInt(5));
 
     }
 }
