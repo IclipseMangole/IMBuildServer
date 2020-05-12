@@ -1,27 +1,23 @@
 package de.Iclipse.BuildServer.Functions.Listener;
 
 import de.Iclipse.IMAPI.Database.Mode;
-import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.SignChangeEvent;
 
 import static de.Iclipse.BuildServer.Data.dsp;
 
 public class SignListener implements Listener {
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent e) {
-        if (e.getBlock().getType().name().contains("SIGN")) {
-            Sign sign = (Sign) e.getBlock().getState();
-            if (e.getPlayer().hasPermission("im.sign.create")) {
-                if (sign.getLine(0).startsWith("[") && sign.getLine(0).endsWith("]")) {
-                    String mode = sign.getLine(0).replace("[", "").replace("]", "");
-                    if (!de.Iclipse.IMAPI.Database.Sign.isSign(sign.getLocation())) {
-                        if (Mode.getModes().contains(mode)) {
-                            de.Iclipse.IMAPI.Database.Sign.createSign(mode, sign.getLocation());
-                            dsp.send(e.getPlayer(), "sign.create");
-                        }
+    public void onBlockPlace(SignChangeEvent e) {
+        if (e.getPlayer().hasPermission("im.sign.create")) {
+            if (e.getLine(0).contains("[") && e.getLine(0).contains("]")) {
+                String mode = e.getLine(0).replace("[", "").replace("]", "");
+                if (!de.Iclipse.IMAPI.Database.Sign.isSign(e.getBlock().getLocation())) {
+                    if (Mode.getModes().contains(mode)) {
+                        de.Iclipse.IMAPI.Database.Sign.createSign(mode, e.getBlock().getLocation());
+                        dsp.send(e.getPlayer(), "sign.create");
                     }
                 }
             }
