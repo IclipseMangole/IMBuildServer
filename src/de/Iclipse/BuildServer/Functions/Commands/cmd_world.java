@@ -203,6 +203,25 @@ public class cmd_world {
         }
     }
 
+    @IMCommand(
+            name = "unload",
+            permissions = "im.cmd.world.unload",
+            usage = "world.unload.usage",
+            description = "world.unload.description",
+            minArgs = 1,
+            maxArgs = 1,
+            parent = "world"
+    )
+    public void unload(CommandSender sender, String name) {
+        if (Bukkit.getWorld(name + "_world") != null || name == "world") {
+            String realName = name + "_world";
+            Bukkit.unloadWorld(realName, false);
+            sender.sendMessage(prefix + "World unloaded!");
+        } else {
+            sender.sendMessage(prefix + "World doesn´t exist!");
+        }
+    }
+
 
     private void add(CommandSender sender, String command) {
         builder.append("\n" + de.Iclipse.IMAPI.Data.symbol + "§e" + dsp.get("world." + command + ".usage", sender) + "§8: §7 " + dsp.get("world." + command + ".description", sender) + ChatColor.RESET);

@@ -9,8 +9,8 @@ import de.Iclipse.BuildServer.Functions.Commands.cmd_field;
 import de.Iclipse.BuildServer.Functions.Commands.cmd_map;
 import de.Iclipse.BuildServer.Functions.Commands.cmd_world;
 import de.Iclipse.BuildServer.Functions.Listener.BuildListener;
+import de.Iclipse.BuildServer.Functions.Listener.SignListener;
 import de.Iclipse.BuildServer.Functions.Listener.TestListener;
-import de.Iclipse.BuildServer.Functions.Scheduler.Scheduler;
 import de.Iclipse.BuildServer.Functions.Tablist;
 import de.Iclipse.IMAPI.Util.Dispatching.Dispatcher;
 import org.bukkit.Bukkit;
@@ -29,25 +29,26 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         Data.instance = this;
         Data.tablist = new Tablist();
-        loadWorlds();
+        //loadWorlds();
         registerListener();
         registerCommands();
         loadResourceBundles();
         Bukkit.getWorlds().forEach(entry -> {
             entry.setAutoSave(true);
         });
-        createAnimations();
-        Scheduler.startScheduler();
+        //createAnimations();
+        //Scheduler.startScheduler();
     }
 
     @Override
     public void onDisable() {
-        Scheduler.stopScheduler();
+        //Scheduler.stopScheduler();
     }
 
     public void registerListener() {
         Bukkit.getPluginManager().registerEvents(new BuildListener(), this);
         Bukkit.getPluginManager().registerEvents(new TestListener(), this);
+        Bukkit.getPluginManager().registerEvents(new SignListener(), this);
         //Bukkit.getPluginManager().registerEvents(new cmd_map(), this);
     }
 
