@@ -11,7 +11,6 @@ import de.Iclipse.BuildServer.Functions.Commands.cmd_world;
 import de.Iclipse.BuildServer.Functions.Listener.BuildListener;
 import de.Iclipse.BuildServer.Functions.Listener.SignListener;
 import de.Iclipse.BuildServer.Functions.Listener.TestListener;
-import de.Iclipse.BuildServer.Functions.Tablist;
 import de.Iclipse.IMAPI.Util.Dispatching.Dispatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
@@ -28,7 +27,6 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         Data.instance = this;
-        Data.tablist = new Tablist();
         //loadWorlds();
         registerListener();
         registerCommands();

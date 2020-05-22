@@ -11,15 +11,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
 import static de.Iclipse.BuildServer.Data.dsp;
-import static de.Iclipse.BuildServer.Data.tablist;
 
 public class BuildListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        tablist.setPlayer(e.getPlayer());
-
-        tablist.setTablist(p);
         p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 
         e.setJoinMessage(null);
