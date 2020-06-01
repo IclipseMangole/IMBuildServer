@@ -28,7 +28,7 @@ public class cmd_field {
     )
     public void exec(Player p, byte color) {
         if (p.getInventory().getItemInMainHand().getType().equals(Material.MAP)) {
-            p.getInventory().setItemInMainHand(getMap(p));
+            p.getInventory().setItemInMainHand(getMap(p, (byte) 3));
             ThreadExecutor.executeAsync(new Runnable() {
                 @Override
                 public void run() {
@@ -57,7 +57,7 @@ public class cmd_field {
             });
         }
         if (p.getInventory().getItemInOffHand().getType().equals(Material.MAP)) {
-            p.getInventory().setItemInOffHand(getMap(p));
+            p.getInventory().setItemInOffHand(getMap(p, (byte) 3));
             ThreadExecutor.executeAsync(new Runnable() {
                 @Override
                 public void run() {

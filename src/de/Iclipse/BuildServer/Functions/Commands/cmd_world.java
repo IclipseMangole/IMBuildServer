@@ -61,6 +61,9 @@ public class cmd_world {
         });
         Bukkit.getServer().createWorld(new WorldCreator(name + "_world"));
         dsp.send(sender, "world.create.success");
+        if (sender instanceof Player) {
+            ((Player) sender).teleport(Bukkit.getWorld(name + "_world").getSpawnLocation());
+        }
     }
 
     @IMCommand(

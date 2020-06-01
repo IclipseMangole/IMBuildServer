@@ -3,7 +3,9 @@ package de.Iclipse.BuildServer.Functions.Commands;
 import de.Iclipse.IMAPI.Util.Command.IMCommand;
 import de.Iclipse.IMAPI.Util.executor.Callback;
 import de.Iclipse.IMAPI.Util.executor.ThreadExecutor;
-import net.minecraft.server.v1_15_R1.*;
+import net.minecraft.server.v1_15_R1.Block;
+import net.minecraft.server.v1_15_R1.MaterialMapColor;
+import net.minecraft.server.v1_15_R1.PacketPlayOutMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -14,15 +16,12 @@ import org.bukkit.craftbukkit.v1_15_R1.map.CraftMapView;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MapMeta;
-import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 
 import java.io.*;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 public class cmd_map {
     Callback task;
@@ -36,7 +35,7 @@ public class cmd_map {
     )
     public void map(Player p, byte scale) {
         if (p.getInventory().getItemInMainHand().getType().equals(Material.MAP)) {
-            p.getInventory().setItemInMainHand(getMap(p));
+            p.getInventory().setItemInMainHand(getMap(p, scale));
             task = ThreadExecutor.executeAsync(new Runnable() {
                 @Override
                 public void run() {
@@ -45,7 +44,7 @@ public class cmd_map {
             });
         }
         if (p.getInventory().getItemInOffHand().getType().equals(Material.MAP)) {
-            p.getInventory().setItemInOffHand(getMap(p));
+            p.getInventory().setItemInOffHand(getMap(p, scale));
             task = ThreadExecutor.executeAsync(new Runnable() {
                 @Override
                 public void run() {
@@ -53,63 +52,25 @@ public class cmd_map {
                 }
             });
         }
-
-        /*
-        MapRender render = new MapRender(p.getLocation(), scale);
-        render.run();
-        while(!render.isFinished()){
-        }
-         */
     }
 
-    /*
-    public void renderMap(Player p, int x, int z, Location loc) {
-        p.getInventory().setHeldItemSlot(8);
-        int[] arrayX = {x};
-        int[] arrayZ = {z};
-        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1000, 100, true, false));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 1000, 100, true, false));
-        int loaddistance = 8;
-        int tpdistance = 16 * loaddistance;
-        int worldsize = 16 * 64;
-        Bukkit.getScheduler().runTaskLater(Data.instance, () -> {
-            if (arrayX[0] < worldsize / tpdistance) {
-                if (arrayZ[0] < worldsize / tpdistance) {
-                    p.teleport(new Location(p.getWorld(), arrayX[0] * tpdistance - (0.5 * worldsize - tpdistance + 50), 250, arrayZ[0] * tpdistance - (0.5 * worldsize - tpdistance + 50), loc.getYaw(), 90));
-                    p.setGravity(false);
-                    p.damage(0.0);
-                    arrayZ[0]++;
-                } else {
-                    arrayZ[0] = 0;
-                    arrayX[0]++;
-                }
-                renderMap(p, arrayX[0], arrayZ[0], loc);
-            } else {
-                p.removePotionEffect(PotionEffectType.BLINDNESS);
-                p.removePotionEffect(PotionEffectType.CONFUSION);
-                p.teleport(loc);
-                p.setGravity(true);
-            }
-        }, 15);
-    }
-    */
-    public static ItemStack getMap(Player p) {
+    public static ItemStack getMap(Player p, byte scale) {
         ItemStack item = new ItemStack(Material.FILLED_MAP);
         MapMeta meta = (MapMeta) item.getItemMeta();
-        meta.setMapView(getMapView(p));
+        meta.setMapView(getMapView(p, scale));
         //meta.setDisplayName(" ");
         item.setItemMeta(meta);
         return item;
     }
 
-    public static MapView getMapView(Player p) {
+    public static MapView getMapView(Player p, byte scale) {
         CraftMapView view = (CraftMapView) Bukkit.createMap(p.getWorld());
         view.setUnlimitedTracking(true);
         view.setTrackingPosition(false);
         view.setCenterX(p.getLocation().getBlockX());
         view.setCenterZ(p.getLocation().getBlockY());
         view.setTrackingPosition(true);
-        view.setScale(MapView.Scale.FAR);
+        view.setScale(MapView.Scale.valueOf(scale));
         view.setLocked(true);
         return view;
     }
@@ -118,32 +79,23 @@ public class cmd_map {
         System.out.println(Instant.now().toString());
         int id = ((MapMeta) item.getItemMeta()).getMapView().getId();
 
-        List<MapRenderer> removing = new ArrayList<>(((MapMeta) item.getItemMeta()).getMapView().getRenderers());
-        removing.forEach(((MapMeta) item.getItemMeta()).getMapView()::removeRenderer);
 
-        Collection<MapIcon> list = new ArrayList<>();
-        list.add(new MapIcon(MapIcon.Type.BANNER_MAGENTA, (byte) p.getLocation().getBlockX(), (byte) p.getWorld().getSpawnLocation().getBlockZ(), (byte) 0, null));
 
-        /*
-        MapRender render = new MapRender(p.getLocation(), scale);
-        render.run();
-        while(!render.isFinished()){
-        }
-         */
+
         File f = new File(p.getWorld().getWorldFolder().getPath() + "/maps/map_" + p.getLocation().getBlockX() + "_" + p.getLocation().getBlockZ() + "_" + scale + ".txt");
         byte[] data;
         if (f.exists()) {
             data = loadData(f);
         } else {
-            data = renderMap(p.getLocation(), scale, (byte) Math.pow(2, scale));
+            data = renderMap(p.getLocation(), (byte) Math.pow(2, scale));
             saveData(data, f);
         }
-        PacketPlayOutMap packet = new PacketPlayOutMap(id, scale, true, true, list, data, 0, 0, 128, 128);
+        PacketPlayOutMap packet = new PacketPlayOutMap(id, scale, true, true, new ArrayList<>(), data, 0, 0, 128, 128);
         ((CraftPlayer) p).getHandle().playerConnection.networkManager.sendPacket(packet);
         System.out.println(Instant.now().toString());
     }
 
-    public static byte[] renderMap(Location middle, byte scale, byte scaleBlocks) {
+    public static byte[] renderMap(Location middle, byte scaleBlocks) {
         byte[] data = new byte[128 * 128];
         Location upperLeftCorner = middle.subtract(128 * scaleBlocks / 2, 0.0, 128 * scaleBlocks / 2);
         System.out.println("BlockX: " + upperLeftCorner.getBlockX() + ", BlockZ: " + upperLeftCorner.getBlockZ());
@@ -171,7 +123,7 @@ public class cmd_map {
     public static HashMap<Byte, Byte> getColor(Location corner, byte mapX, byte mapZ, byte size) {
         HashMap<Byte, Byte> blocks = new HashMap<>();
         for (int fieldX = 0; fieldX < size; fieldX++) {
-            for (int fieldZ = 0; fieldZ < (int) size; fieldZ++) { //corner.add((mapX * (int) size) + fieldX, 0.0, (mapZ * size) + fieldZ)
+            for (int fieldZ = 0; fieldZ < (int) size; fieldZ++) {
                 Block b = null;
                 Location loc = corner.getWorld().getHighestBlockAt(corner.getBlockX() + (mapX * (int) size) + fieldX, corner.getBlockZ() + (mapZ * size) + fieldZ).getLocation();
                 if (!corner.getWorld().getChunkAt(loc).isLoaded()) {
@@ -191,10 +143,17 @@ public class cmd_map {
 
                 }
                 //System.out.println(new Location(corner.getWorld(), corner.getBlockX() + (mapX * (int) size) + fieldX, 0.0, corner.getBlockZ() + (mapZ * size) + fieldZ));
-                MaterialMapColor materialMapColor = b.e(b.getBlockData(), null, new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+                MaterialMapColor materialMapColor = b.getBlockData().getMaterial().i();
                 byte color;
                 if (materialMapColor != null) {
-                    color = (byte) ((materialMapColor.ac * 4) + (loc.getBlockY() % 2) * 3);
+                    if (materialMapColor.ac == 12) {
+                        switch (loc.getWorld().getBiome(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())) {
+                            case WARM_OCEAN:
+                                color = (byte) (48 +);
+                        }
+                    } else {
+                        color = (byte) ((materialMapColor.ac * 4) + (loc.getBlockY() % 2) * 1);
+                    }
                 } else {
                     color = 0;
                 }
@@ -204,16 +163,7 @@ public class cmd_map {
                 } else {
                     blocks.put(color, (byte) 1);
                 }
-                    /*
-                } else {
-                    byte color = (byte) MaterialMapColor.aa.ac;
-                    if (blocks.containsKey(color)) {
-                        blocks.replace(color, blocks.get(color));
-                    } else {
-                        blocks.put(color, (byte) 1);
-                    }
-                }
-               */
+
             }
         }
         return blocks;
@@ -227,7 +177,6 @@ public class cmd_map {
             String[] line = reader.readLine().split(",");
             data = new byte[line.length];
             for (int i = 0; i < line.length; i++) {
-                System.out.println(line[i]);
                 data[i] = Byte.parseByte(line[i]);
             }
             return data;
