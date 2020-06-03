@@ -36,6 +36,7 @@ public class cmd_world {
         builder = new StringBuilder();
         builder.append(dsp.get("world.world", sender) + "\n");
         add(sender, "create");
+        add(sender, "load");
         add(sender, "teleport");
         add(sender, "list");
         add(sender, "save");
@@ -63,6 +64,33 @@ public class cmd_world {
         dsp.send(sender, "world.create.success");
         if (sender instanceof Player) {
             ((Player) sender).teleport(Bukkit.getWorld(name + "_world").getSpawnLocation());
+        }
+    }
+
+    @IMCommand(
+            name = "load",
+            permissions = "im.cmd.world.load",
+            usage = "world.load.usage",
+            description = "world.load.description",
+            minArgs = 1,
+            maxArgs = 1,
+            parent = "world"
+    )
+    public void load(CommandSender sender, String name) {
+        Bukkit.getWorlds().forEach(entry -> {
+            if (entry.getName().equalsIgnoreCase(name)) {
+                dsp.send(sender, "world.load.exists");
+                return;
+            }
+        });
+        if (new File(Bukkit.getWorldContainer().getPath() + "/" + name + "_world").exists()) {
+            Bukkit.getServer().createWorld(new WorldCreator(name + "_world"));
+            dsp.send(sender, "world.load.success");
+            if (sender instanceof Player) {
+                ((Player) sender).teleport(Bukkit.getWorld(name + "_world").getSpawnLocation());
+            }
+        } else {
+            sender.sendMessage(prefix + "§4Die Welt existiert nicht!");
         }
     }
 
