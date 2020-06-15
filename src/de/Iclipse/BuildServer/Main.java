@@ -4,10 +4,7 @@ import de.Iclipse.BuildServer.Functions.Animations.Flag;
 import de.Iclipse.BuildServer.Functions.Animations.Grave;
 import de.Iclipse.BuildServer.Functions.Animations.Vent;
 import de.Iclipse.BuildServer.Functions.Animations.Windmill;
-import de.Iclipse.BuildServer.Functions.Commands.cmd_clear;
-import de.Iclipse.BuildServer.Functions.Commands.cmd_field;
-import de.Iclipse.BuildServer.Functions.Commands.cmd_map;
-import de.Iclipse.BuildServer.Functions.Commands.cmd_world;
+import de.Iclipse.BuildServer.Functions.Commands.*;
 import de.Iclipse.BuildServer.Functions.Listener.BuildListener;
 import de.Iclipse.BuildServer.Functions.Listener.SignListener;
 import de.Iclipse.BuildServer.Functions.Listener.TestListener;
@@ -21,6 +18,8 @@ import java.util.HashMap;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import static de.Iclipse.IMAPI.Data.langDE;
+import static de.Iclipse.IMAPI.Data.langEN;
 import static de.Iclipse.IMAPI.IMAPI.register;
 
 public class Main extends JavaPlugin {
@@ -55,6 +54,8 @@ public class Main extends JavaPlugin {
         register(new cmd_clear(), this);
         register(new cmd_map(), this);
         register(new cmd_field(), this);
+        register(new cmd_armorstand(), this);
+        register(new cmd_glowing(), this);
     }
 
     public void loadWorlds() {
@@ -66,22 +67,20 @@ public class Main extends JavaPlugin {
     }
 
     public void loadResourceBundles() {
+        HashMap<String, ResourceBundle> langs = new HashMap<>();
         try {
-            HashMap<String, ResourceBundle> langs = new HashMap<>();
             Data.langDE = ResourceBundle.getBundle("i18n.langDE");
             Data.langEN = ResourceBundle.getBundle("i18n.langEN");
-            langs.put("DE", Data.langDE);
-            langs.put("EN", Data.langEN);
-            Data.dsp = new Dispatcher(this,
-                    langs);
         } catch (MissingResourceException e) {
-            e.printStackTrace();
             de.Iclipse.IMAPI.Data.dispatching = false;
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Reload oder Bundle not found!");
             de.Iclipse.IMAPI.Data.dispatching = false;
         }
+        langs.put("DE", langDE);
+        langs.put("EN", langEN);
+        Data.dsp = new Dispatcher(this,
+                langs);
     }
 
     public void createAnimations() {
