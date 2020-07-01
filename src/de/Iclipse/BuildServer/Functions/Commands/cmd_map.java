@@ -4,16 +4,15 @@ import de.Iclipse.BuildServer.Data;
 import de.Iclipse.IMAPI.Util.Command.IMCommand;
 import de.Iclipse.IMAPI.Util.executor.Callback;
 import de.Iclipse.IMAPI.Util.executor.ThreadExecutor;
-import net.minecraft.server.v1_15_R1.Block;
-import net.minecraft.server.v1_15_R1.BlockPosition;
-import net.minecraft.server.v1_15_R1.MaterialMapColor;
-import net.minecraft.server.v1_15_R1.PacketPlayOutMap;
+import net.minecraft.server.v1_16_R1.Block;
+import net.minecraft.server.v1_16_R1.MaterialMapColor;
+import net.minecraft.server.v1_16_R1.PacketPlayOutMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_15_R1.block.CraftBlock;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_15_R1.map.CraftMapView;
+import org.bukkit.craftbukkit.v1_16_R1.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R1.map.CraftMapView;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MapMeta;
@@ -155,12 +154,12 @@ public class cmd_map {
 
                 //System.out.println(new Location(corner.getWorld(), corner.getBlockX() + (mapX * (int) size) + fieldX, 0.0, corner.getBlockZ() + (mapZ * size) + fieldZ));
                 //MaterialMapColor materialMapColor = b.getBlockData().getMaterial().i();
-                MaterialMapColor materialMapColor = b.e(b.getBlockData(), null, new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+                MaterialMapColor materialMapColor = b.s();
                 byte color;
-                if (materialMapColor != null && materialMapColor.ac > 0) {
+                if (materialMapColor != null && materialMapColor.aj > 0) {
                     //System.out.println(materialMapColor.ac);
                     //System.out.println(materialMapColor.ac > 0);
-                    if (materialMapColor.ac == 12) {
+                    if (materialMapColor.aj == 12) {
                         switch (loc.getWorld().getBiome(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())) {
                             case WARM_OCEAN:
                             case DEEP_WARM_OCEAN:
@@ -187,7 +186,7 @@ public class cmd_map {
                                 color = 12 * 4;
                         }
                     } else {
-                        color = (byte) ((materialMapColor.ac * 4) + (loc.getBlockY() % 2) * 1);
+                        color = (byte) ((materialMapColor.aj * 4) + (loc.getBlockY() % 2) * 1);
                     }
                 } else {
                     if (loc.getBlock().getType().equals(Material.WATER) || loc.getBlock().getType().equals(Material.KELP_PLANT)) {
@@ -216,8 +215,8 @@ public class cmd_map {
                             default:
                                 color = 12 * 4;
                         }
-                    } else if (b.getBlockData().getMaterial().equals(net.minecraft.server.v1_15_R1.Material.LAVA)) {
-                        color = (byte) (net.minecraft.server.v1_15_R1.Material.LAVA.i().ac * 4);
+                    } else if (b.getBlockData().getMaterial().equals(net.minecraft.server.v1_16_R1.Material.LAVA)) {
+                        color = (byte) (net.minecraft.server.v1_16_R1.Material.LAVA.h().aj * 4);
                     } else {
                         color = 0;
                     }
