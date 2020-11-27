@@ -2,11 +2,11 @@ package de.Iclipse.BuildServer.Functions.Commands;
 
 import de.Iclipse.IMAPI.Util.Command.IMCommand;
 import de.Iclipse.IMAPI.Util.executor.ThreadExecutor;
-import net.minecraft.server.v1_16_R1.PacketPlayOutMap;
+import net.minecraft.server.v1_16_R3.PacketPlayOutMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_16_R1.map.CraftMapView;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R3.map.CraftMapView;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MapMeta;

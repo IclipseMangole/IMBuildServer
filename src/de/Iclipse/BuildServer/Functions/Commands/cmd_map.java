@@ -4,15 +4,15 @@ import de.Iclipse.BuildServer.Data;
 import de.Iclipse.IMAPI.Util.Command.IMCommand;
 import de.Iclipse.IMAPI.Util.executor.Callback;
 import de.Iclipse.IMAPI.Util.executor.ThreadExecutor;
-import net.minecraft.server.v1_16_R1.Block;
-import net.minecraft.server.v1_16_R1.MaterialMapColor;
-import net.minecraft.server.v1_16_R1.PacketPlayOutMap;
+import net.minecraft.server.v1_16_R3.Block;
+import net.minecraft.server.v1_16_R3.MaterialMapColor;
+import net.minecraft.server.v1_16_R3.PacketPlayOutMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_16_R1.block.CraftBlock;
-import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_16_R1.map.CraftMapView;
+import org.bukkit.craftbukkit.v1_16_R3.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R3.map.CraftMapView;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MapMeta;
@@ -215,8 +215,8 @@ public class cmd_map {
                             default:
                                 color = 12 * 4;
                         }
-                    } else if (b.getBlockData().getMaterial().equals(net.minecraft.server.v1_16_R1.Material.LAVA)) {
-                        color = (byte) (net.minecraft.server.v1_16_R1.Material.LAVA.h().aj * 4);
+                    } else if (b.getBlockData().getMaterial().equals(net.minecraft.server.v1_16_R3.Material.LAVA)) {
+                        color = (byte) (net.minecraft.server.v1_16_R3.Material.LAVA.h().aj * 4);
                     } else {
                         color = 0;
                     }
