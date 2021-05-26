@@ -1,7 +1,11 @@
 package de.Iclipse.BuildServer.Functions.Commands;
 
 import de.Iclipse.BuildServer.Data;
+import de.Iclipse.BuildServer.IMBuildServer;
+import de.Iclipse.IMAPI.IMAPI;
 import de.Iclipse.IMAPI.Util.Command.IMCommand;
+import de.Iclipse.IMAPI.Util.Dispatching.Dispatch;
+import de.Iclipse.IMAPI.Util.Dispatching.Dispatcher;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -11,19 +15,22 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-
-import static de.Iclipse.BuildServer.Data.dsp;
-import static de.Iclipse.IMAPI.Data.prefix;
-import static de.Iclipse.IMAPI.Data.textcolor;
-import static de.Iclipse.IMAPI.IMAPI.deleteFile;
+import java.io.IOException;
 
 
 public class cmd_world {
-    StringBuilder builder;
-
+    
+    private StringBuilder builder;
+    private Dispatcher dsp;
+    
+    public cmd_world(Data data){
+        dsp = data.getDispatcher();
+    }
+    
     @IMCommand(
             name = "world",
             permissions = "im.cmd.world",
@@ -90,7 +97,7 @@ public class cmd_world {
                 ((Player) sender).teleport(Bukkit.getWorld(name + "_world").getSpawnLocation());
             }
         } else {
-            sender.sendMessage(prefix + "§4Die Welt existiert nicht!");
+            sender.sendMessage("§4Die Welt existiert nicht!");
         }
     }
 
@@ -126,9 +133,9 @@ public class cmd_world {
     )
     public void list(CommandSender sender) {
         if (sender instanceof Player) {
-            TextComponent base = new TextComponent(prefix + Data.dsp.get("world.name", sender) + ": ");
+            TextComponent base = new TextComponent(dsp.get("world.name", sender) + ": ");
             Bukkit.getWorlds().forEach(world -> {
-                TextComponent component = new TextComponent("§5" + world.getName().replace("_world", "") + textcolor + ", ");
+                TextComponent component = new TextComponent("§5" + world.getName().replace("_world", "") + IMAPI.getInstance().getData().getTextcolor() + ", ");
                 component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/world teleport " + world.getName()));
                 component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Switch to " + world.getName().replace("_world", "")).create()));
                 base.addExtra(component);
@@ -136,7 +143,7 @@ public class cmd_world {
             sender.spigot().sendMessage(base);
         } else {
             StringBuilder builder = new StringBuilder();
-            builder.append(prefix + dsp.get("world.name", sender) + ": ");
+            builder.append(dsp.get("world.name", sender) + ": ");
             Bukkit.getWorlds().forEach(entry -> {
                 builder.append("§e" + entry.getName().replace("_world", "") + "§7,");
             });
@@ -184,7 +191,11 @@ public class cmd_world {
                 if (confirm.equalsIgnoreCase("confirm")) {
                     String realName = name + "_world";
                     Bukkit.unloadWorld(realName, false);
-                    deleteFile(Bukkit.getWorld(realName).getWorldFolder());
+                    try {
+                        FileUtils.deleteDirectory(Bukkit.getWorld(realName).getWorldFolder());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     dsp.send(sender, "world.delete.successfull");
                 }
             }
@@ -217,7 +228,7 @@ public class cmd_world {
                 if (confirm.equalsIgnoreCase("confirm")) {
                     String realName = name + "_world";
                     Bukkit.unloadWorld(realName, false);
-                    Bukkit.getScheduler().runTaskAsynchronously(Data.instance, () -> {
+                    Bukkit.getScheduler().runTaskAsynchronously(IMBuildServer.getInstance(), () -> {
                         File f = new File(Bukkit.getWorld(realName).getWorldFolder() + "/region");
                         for (int i = 0; i < f.listFiles().length; i++) {
                             String[] array = f.listFiles()[i].getName().split("\\.");
@@ -247,14 +258,14 @@ public class cmd_world {
         if (Bukkit.getWorld(name + "_world") != null || name == "world") {
             String realName = name + "_world";
             Bukkit.unloadWorld(realName, false);
-            sender.sendMessage(prefix + "World unloaded!");
+            sender.sendMessage("World unloaded!");
         } else {
-            sender.sendMessage(prefix + "World doesn´t exist!");
+            sender.sendMessage("World doesn´t exist!");
         }
     }
 
 
     private void add(CommandSender sender, String command) {
-        builder.append("\n" + de.Iclipse.IMAPI.Data.symbol + "§e" + dsp.get("world." + command + ".usage", sender) + "§8: §7 " + dsp.get("world." + command + ".description", sender) + ChatColor.RESET);
+        builder.append("\n" + IMAPI.getInstance().getData().getSymbol() + "§e" + dsp.get("world." + command + ".usage", sender) + "§8: §7 " + dsp.get("world." + command + ".description", sender) + ChatColor.RESET);
     }
 }

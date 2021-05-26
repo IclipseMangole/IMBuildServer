@@ -1,5 +1,7 @@
 package de.Iclipse.BuildServer.Functions.Listener;
 
+import de.Iclipse.BuildServer.IMBuildServer;
+import de.Iclipse.IMAPI.Util.Dispatching.Dispatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,9 +12,16 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-import static de.Iclipse.BuildServer.Data.dsp;
 
 public class BuildListener implements Listener {
+    private IMBuildServer imBuildServer;
+    private Dispatcher dsp;
+
+    public BuildListener(IMBuildServer imBuildServer){
+        this.imBuildServer = imBuildServer;
+        this.dsp = imBuildServer.getData().getDispatcher();
+    }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();

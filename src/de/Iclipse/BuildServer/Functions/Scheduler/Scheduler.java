@@ -1,26 +1,25 @@
 package de.Iclipse.BuildServer.Functions.Scheduler;
 
 import de.Iclipse.BuildServer.Data;
-import de.Iclipse.BuildServer.Functions.Animations.Flag;
-import de.Iclipse.BuildServer.Functions.Animations.Grave;
-import de.Iclipse.BuildServer.Functions.Animations.Vent;
-import de.Iclipse.BuildServer.Functions.Animations.Windmill;
+import de.Iclipse.BuildServer.Functions.Animations.Animation;
+import de.Iclipse.BuildServer.IMBuildServer;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
 public class Scheduler {
-    private static BukkitTask task;
+    private BukkitTask task;
 
-    public static void startScheduler() {
-        task = Bukkit.getScheduler().runTaskTimer(Data.instance, () -> {
-            Flag.flag();
-            Grave.grave();
-            Vent.vent();
-            Windmill.windmill();
+    public Scheduler(IMBuildServer imBuildServer){
+        task = Bukkit.getScheduler().runTaskTimer(imBuildServer, () -> {
+            if (!imBuildServer.getData().isKilllag()) {
+                for (Animation animation : imBuildServer.getData().getAnimations()) {
+                    animation.update();
+                }
+            }
         }, 20, 20);
     }
 
-    public static void stopScheduler() {
+    public void stop() {
         task.cancel();
     }
 }

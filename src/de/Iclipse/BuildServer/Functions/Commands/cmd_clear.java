@@ -1,10 +1,9 @@
 package de.Iclipse.BuildServer.Functions.Commands;
 
+import de.Iclipse.BuildServer.IMBuildServer;
 import de.Iclipse.IMAPI.Util.Command.IMCommand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-
-import static de.Iclipse.BuildServer.Data.dsp;
 
 public class cmd_clear {
     @IMCommand(
@@ -24,6 +23,6 @@ public class cmd_clear {
                 items[0]++;
             }
         });
-        dsp.send(p, "clear.successfull", "" + items[0]);
+        IMBuildServer.getInstance().getData().getDispatcher().send(p, "clear.successfull", "" + items[0]);
     }
 }

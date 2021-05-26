@@ -1,6 +1,7 @@
 package de.Iclipse.BuildServer.Functions.Commands;
 
 import de.Iclipse.BuildServer.Data;
+import de.Iclipse.BuildServer.IMBuildServer;
 import de.Iclipse.IMAPI.Util.Command.IMCommand;
 import de.Iclipse.IMAPI.Util.executor.Callback;
 import de.Iclipse.IMAPI.Util.executor.ThreadExecutor;
@@ -144,7 +145,7 @@ public class cmd_map {
                 if (!loc.getChunk().isLoaded()) {
                     System.out.println("Not loaded: [" + loc.getChunk().getX() + "|" + loc.getChunk().getZ() + "]");
                     corner.getWorld().getChunkAt(loc).setForceLoaded(true);
-                    Bukkit.getScheduler().runTaskLater(Data.instance, () -> loc.getChunk().setForceLoaded(false), 100);
+                    Bukkit.getScheduler().runTaskLater(IMBuildServer.getInstance(), () -> loc.getChunk().setForceLoaded(false), 100);
                     while (!loc.getChunk().isLoaded()) {
                         System.out.println(b == null);
                     }

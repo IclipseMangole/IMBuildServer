@@ -1,6 +1,6 @@
 name: IMBuildServer
-main: de.Iclipse.BuildServer.Main
-version: Alpha
+main: de.Iclipse.BuildServer.IMBuildServer
+version: 2.0
 author: Iclipse
-api-version: 1.15
+api-version: 1.16
 depend: [IMAPI]
